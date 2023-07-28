@@ -1,4 +1,5 @@
-prices = {
+price = {
+    # Treasure Cards
     "copper": 0,
     "silver": 3,
     "gold": 6,
@@ -19,13 +20,13 @@ prices = {
     "market": 5,
 }
 
-values = {
+value = {
     "copper": 1,
     "silver": 2,
     "gold": 3,
 }
 
-victory_points = {
+points = {
     "estate": 2,
     "duchy": 5,
     "province": 8,
