@@ -95,8 +95,9 @@ class Board:
         return self.piles["province"] == 0 or self.num_empty_piles() == 3
 
 class Player():
-    def __init__(self, board, debug=False):
+    def __init__(self, board, strategy, debug=False):
         self.board = board
+        self.strategy = strategy(self)
         self.debug = debug
 
         coppers = [Treasure("copper") for _ in range(7)]
@@ -149,29 +150,37 @@ class Player():
                 if self.debug: print(f"Bought {card_name}")
                 return True
 
-def big_money(player):
-    treasure_total = player.hand_value()
-    if treasure_total >= 8:
-        player.buy("province")
-    elif treasure_total >= 6:
-        player.buy("gold")
-    elif treasure_total >= 3:
-        player.buy("silver")
+    def play(self):
+        self.strategy.play()
+        self.discard_hand()
+        return self.board.game_over()
 
-def play_turn(player):
-    big_money(player)
-    player.discard_hand()
-    return player.board.game_over()
+class BigMoney:
+    """
+    The simplest Big Money strategy: when you can, buy a province, if not buy a
+    gold, if not buy a silver, otherwise buy nothing
+    """
+    def __init__(self, player):
+        self.player = player
+
+    def play(self):
+        treasure_total = self.player.hand_value()
+        if treasure_total >= 8:
+            self.player.buy("province")
+        elif treasure_total >= 6:
+            self.player.buy("gold")
+        elif treasure_total >= 3:
+            self.player.buy("silver")
 
 def play_game():
 
     board = Board()
-    player1 = Player(board)
-    player2 = Player(board)
+    player1 = Player(board, BigMoney)
+    player2 = Player(board, BigMoney)
 
     while True:
-        if play_turn(player1): break
-        if play_turn(player2): break
+        if player1.play(): break
+        if player2.play(): break
     
     return player1.total_points(), player2.total_points()
 
