@@ -117,7 +117,7 @@ class Player():
             self.recycle()
         self.hand = self.deck[:5]
         self.deck = self.deck[5:]
-        print([c.name for c in self.hand])
+        # print([c.name for c in self.hand])
 
     def discard_hand(self):
         self.discard_pile += self.hand
@@ -139,7 +139,7 @@ class Player():
                 return False
             else:
                 self.discard_pile += [card]
-                print(f"Bought {card_name}")
+                # print(f"Bought {card_name}")
                 return True
 
 def big_money(player):
@@ -165,19 +165,26 @@ def play_game():
     while True:
         if play_turn(player1): break
         if play_turn(player2): break
-        print("--")
+        # print("--")
     
     return player1.total_points(), player2.total_points()
 
 if __name__ == "__main__":
 
-    p1_points, p2_points = play_game()
+    p1_wins = 0
+    p2_wins = 0
+    ties = 0
 
-    if p1_points > p2_points:
-        print("P1 is the winner")
-    elif p1_points < p2_points:
-        print("P2 is the winner")
-    else:
-        print("It's a draw")
+    for i in range(1000):
+        print(f"Game {i}")
+        p1, p2 = play_game()
+        if p1 > p2:
+            p1_wins += 1
+        elif p1 < p2:
+            p2_wins += 1
+        else:
+            ties += 1
 
-
+    print("P1 wins:", p1_wins)
+    print("P2 wins:", p2_wins)
+    print("Ties:", ties)
