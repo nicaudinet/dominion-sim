@@ -23,6 +23,12 @@ class Card:
         else:
             raise Exception("Cannot compare Card to something that is not a string or a Card")
 
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.name
+
 class Treasure(Card):
     def __init__(self, card_name):
         super().__init__(card_name)
