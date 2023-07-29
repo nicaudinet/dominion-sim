@@ -91,3 +91,41 @@ class DoubleSmithy:
         self._action_phase()
         self._buy_phase()
 
+class MineBigMoney:
+    """
+    A classic variation on Big Money, where the player buys a single Smithy as
+    soon as possible and then plays standard Big Money for the rest of the game
+    """
+    def __init__(self, player):
+        self.player = player
+        self.has_mine = False
+
+    def _action_phase(self):
+        if "mine" in self.player.hand:
+            if "silver" in self.player.hand:
+                self.player.trash("silver")
+                self.player.gain_hand("gold")
+            elif "copper" in self.player.hand:
+                self.player.trash("copper")
+                self.player.gain_hand("silver")
+
+    def _buy_phase(self):
+        treasure_total = self.player.hand_value()
+        if not self.has_mine:
+            if treasure_total >= 5:
+                self.player.buy("mine")
+                self.has_mine = True
+            elif treasure_total >= 3:
+                self.player.buy("silver")
+        else:
+            if treasure_total >= 8:
+                self.player.buy("province")
+            elif treasure_total >= 6:
+                self.player.buy("gold")
+            elif treasure_total >= 3:
+                self.player.buy("silver")
+
+    def play(self):
+        self._action_phase()
+        self._buy_phase()
+

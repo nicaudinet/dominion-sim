@@ -5,7 +5,7 @@ from strategy import *
 def play_game():
 
     board = Board()
-    player1 = Player(board, DoubleSmithy)
+    player1 = Player(board, MineBigMoney)
     player2 = Player(board, SmithyBigMoney)
 
     while True:

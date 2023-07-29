@@ -47,15 +47,34 @@ class Player():
         victory_cards = filter(lambda c: c.is_victory(), self.all_cards())
         return sum(c.points for c in victory_cards)
 
+    def trash(self, card_name):
+        try:
+            self.hand.remove(card_name)
+        except ValueError:
+            # Do nothing if card is not in hand
+            pass
+
+    def gain(self, card_name):
+        card = self.board.pick_up(card_name) 
+        if card is None:
+            return False
+        else:
+            self.discard_pile += [card]
+            return True 
+
+    def gain_hand(self, card_name):
+        card = self.board.pick_up(card_name) 
+        if card is None:
+            return False
+        else:
+            self.hand += [card]
+            return True 
+
     def buy(self, card_name):
         if Card(card_name).price <= self.hand_value():
-            card = self.board.pick_up(card_name)
-            if card is None:
-                return False
-            else:
-                self.discard_pile += [card]
-                if self.debug: print(f"Bought {card_name}")
-                return True
+            success = self.gain(card_name)
+            if success and self.debug: print(f"Bought {card_name}")
+            return success
 
     def play(self):
         self.strategy.play()

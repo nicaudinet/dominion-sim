@@ -62,7 +62,7 @@ class Board:
             "smithy": 12,
             # "remodel": 12,
             # "workshop": 12,
-            # "mine": 12,
+            "mine": 12,
             # "market": 12,
             # "militia": 12,
             # "woodcutter": 12,
