@@ -27,8 +27,10 @@ class SmithyBigMoney:
         self.has_smithy = False
 
     def _action_phase(self):
-        if "smithy" in self.player.hand:
-            self.player.draw(3)
+        hand = self.player.hand
+        if "smithy" in hand:
+            smithy = hand.pop(hand.index("smithy"))
+            smithy.play(self.player)
 
     def _buy_phase(self):
         treasure_total = self.player.hand_value()
@@ -64,8 +66,10 @@ class DoubleSmithy:
         self.n_smithy = 0
 
     def _action_phase(self):
-        if "smithy" in self.player.hand:
-            self.player.draw(3)
+        hand = self.player.hand
+        if "smithy" in hand:
+            smithy = hand.pop(hand.index("smithy"))
+            smithy.play(self.player)
 
     def _buy_phase(self):
         treasure_total = self.player.hand_value()
@@ -101,13 +105,10 @@ class MineBigMoney:
         self.has_mine = False
 
     def _action_phase(self):
-        if "mine" in self.player.hand:
-            if "silver" in self.player.hand:
-                self.player.trash("silver")
-                self.player.gain_hand("gold")
-            elif "copper" in self.player.hand:
-                self.player.trash("copper")
-                self.player.gain_hand("silver")
+        hand = self.player.hand
+        if "mine" in hand:
+            mine = hand.pop(hand.index("mine"))
+            mine.play(self.player)
 
     def _buy_phase(self):
         treasure_total = self.player.hand_value()

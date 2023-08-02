@@ -7,13 +7,12 @@ class Player():
         self.strategy = strategy(self)
         self.debug = debug
 
-        coppers = [Treasure("copper") for _ in range(7)]
-        estates = [Victory("estate") for _ in range(3)]
-        self.deck = coppers + estates
-        random.shuffle(self.deck)
+        self.deck = []
         self.hand = []
         self.discard_pile = []
 
+        coppers = [self.gain("copper") for _ in range(7)]
+        estates = [self.gain("estate") for _ in range(3)]
         self.draw_hand()
 
     def all_cards(self):
@@ -51,8 +50,7 @@ class Player():
         try:
             self.hand.remove(card_name)
         except ValueError:
-            # Do nothing if card is not in hand
-            pass
+            pass # Do nothing if card is not in hand
 
     def gain(self, card_name):
         card = self.board.pick_up(card_name) 
