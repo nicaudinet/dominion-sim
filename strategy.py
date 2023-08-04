@@ -1,14 +1,31 @@
 from player import *
 
-class BigMoney:
+class Strategy:
+    def __init__(self, player):
+        self.player = player
+
+    def _action_phase(self):
+        assert False, "Not implemented"
+
+    def _buy_phase(self):
+        assert False, "Not implemented"
+
+    def play(self):
+        self._action_phase()
+        self._buy_phase()
+
+class BigMoney(Strategy):
     """
     The simplest Big Money strategy: when you can, buy a province, if not buy a
     gold, if not buy a silver, otherwise buy nothing
     """
     def __init__(self, player):
-        self.player = player
+        super().__init__(player)
 
-    def play(self):
+    def _action_phase(self):
+        pass
+
+    def _buy_phase(self):
         treasure_total = self.player.hand_value()
         if treasure_total >= 8:
             self.player.buy("province")
@@ -17,13 +34,13 @@ class BigMoney:
         elif treasure_total >= 3:
             self.player.buy("silver")
 
-class SmithyBigMoney:
+class SmithyBigMoney(Strategy):
     """
     A classic variation on Big Money, where the player buys a single Smithy as
     soon as possible and then plays standard Big Money for the rest of the game
     """
     def __init__(self, player):
-        self.player = player
+        super().__init__(player)
         self.has_smithy = False
 
     def _action_phase(self):
@@ -52,17 +69,13 @@ class SmithyBigMoney:
             elif treasure_total >= 3:
                 self.player.buy("silver")
 
-    def play(self):
-        self._action_phase()
-        self._buy_phase()
-
-class DoubleSmithy:
+class DoubleSmithy(Strategy):
     """
     Another variation on Big Money, where the player buys two Smithy cards as
     soon as possible and then plays standard Big Money for the rest of the game
     """
     def __init__(self, player):
-        self.player = player
+        super().__init__(player)
         self.n_smithy = 0
 
     def _action_phase(self):
@@ -90,10 +103,6 @@ class DoubleSmithy:
                 self.player.buy("gold")
             elif treasure_total >= 3:
                 self.player.buy("silver")
-
-    def play(self):
-        self._action_phase()
-        self._buy_phase()
 
 class MineBigMoney:
     """
@@ -125,8 +134,3 @@ class MineBigMoney:
                 self.player.buy("gold")
             elif treasure_total >= 3:
                 self.player.buy("silver")
-
-    def play(self):
-        self._action_phase()
-        self._buy_phase()
-
