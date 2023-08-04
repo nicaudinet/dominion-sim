@@ -12,18 +12,15 @@ class Player():
         self.deck = []
         self.hand = []
         self.discard_pile = []
+        self.in_play = []
 
         coppers = [self.gain("copper") for _ in range(7)]
         estates = [self.gain("estate") for _ in range(3)]
         self.draw_hand()
 
     def all_cards(self):
-        return self.deck + self.hand + self.discard_pile
+        return self.deck + self.hand + self.discard_pile + self.in_play
 
-    def recycle(self):
-        random.shuffle(self.discard_pile)
-        self.deck += self.discard_pile
-        self.discard_pile = []
     def card_summary(self):
         cards = self.all_cards()
         unique_cards = set([c.name for c in cards])
@@ -33,18 +30,29 @@ class Player():
         return summary
 
     def draw(self, n):
-        if len(self.deck) < n:
-            self.recycle()
-        self.hand += self.deck[:n]
-        self.deck = self.deck[n:]
+        if len(self.deck + self.discard_pile) < n:
+            self.hand += self.deck
+            self.hand += self.discard_pile
+            self.deck = []
+            self.discard_pile = []
+        elif len(self.deck) < n:
+            random.shuffle(self.discard_pile)
+            self.deck += self.discard_pile
+            self.discard_pile = []
+            self.hand += self.deck[:n]
+            self.deck = self.deck[n:]
+        else:
+            self.hand += self.deck[:n]
+            self.deck = self.deck[n:]
 
     def draw_hand(self):
-        self.hand = []
         self.draw(5)
 
     def discard_hand(self):
         self.discard_pile += self.hand
-        self.draw_hand()
+        self.discard_pile += self.in_play
+        self.hand = []
+        self.in_play = []
 
     def hand_value(self):
         treasure_cards = filter(lambda c: c.is_treasure(), self.hand)
@@ -87,7 +95,18 @@ class Player():
                 print(f"Bought {card_name}")
             return success
 
-    def play(self):
+    def play_card(self, card_name):
+        if card_name in self.hand:
+            card = self.hand.pop(self.hand.index(card_name))
+            self.in_play.append(card)
+            if self.debug:
+                if self.name is not None: print(" - ", end="")
+                print("Played", card.name)
+            return card
+        else:
+            return None
+
+    def play_turn(self):
         if self.debug:
             if self.name is not None:
                 print(self.name + ":")

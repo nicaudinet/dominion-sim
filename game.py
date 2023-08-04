@@ -13,8 +13,8 @@ def play_game(debug=False):
     player2 = Player(board, MineBigMoney, debug=debug, name="Player2")
 
     while True:
-        if player1.play(): break
-        if player2.play(): break
+        if player1.play_turn(): break
+        if player2.play_turn(): break
 
     if debug:
         print("Player 1 cards:")

@@ -6,7 +6,7 @@ class Strategy:
 
     def _action_phase(self):
         assert False, "Not implemented"
-
+    
     def _buy_phase(self):
         assert False, "Not implemented"
 
@@ -34,7 +34,7 @@ class BigMoney(Strategy):
 
     def _action_phase(self):
         pass
-
+    
     def _buy_phase(self):
         treasure_total = self.player.hand_value()
         if treasure_total >= 8:
@@ -54,9 +54,8 @@ class SmithyBigMoney(Strategy):
         self.has_smithy = False
 
     def _action_phase(self):
-        hand = self.player.hand
-        if "smithy" in hand:
-            smithy = hand.pop(hand.index("smithy"))
+        smithy = self.player.play_card("smithy")
+        if smithy is not None:
             smithy.play(self.player)
 
     def _buy_phase(self):
@@ -89,9 +88,8 @@ class DoubleSmithy(Strategy):
         self.n_smithy = 0
 
     def _action_phase(self):
-        hand = self.player.hand
-        if "smithy" in hand:
-            smithy = hand.pop(hand.index("smithy"))
+        smithy = self.player.play_card("smithy")
+        if smithy is not None:
             smithy.play(self.player)
 
     def _buy_phase(self):
@@ -124,10 +122,16 @@ class MineBigMoney:
         self.has_mine = False
 
     def _action_phase(self):
-        hand = self.player.hand
-        if "mine" in hand:
-            mine = hand.pop(hand.index("mine"))
-            mine.play(self.player)
+        mine = self.player.play_card("mine")
+        if mine is None:
+            pass
+        else:
+            if "silver" in self.player.hand:
+                mine.play(self.player, "silver")
+            elif "copper" in self.player.hand:
+                mine.play(self.player, "copper")
+            else:
+                pass
 
     def _buy_phase(self):
         treasure_total = self.player.hand_value()
