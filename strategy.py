@@ -14,6 +14,16 @@ class Strategy:
         self._action_phase()
         self._buy_phase()
 
+class DoNothing(Strategy):
+    def __init__(self, player):
+        super().__init__(player)
+
+    def _action_phase(self):
+        pass
+
+    def _buy_phase(self):
+        pass
+
 class BigMoney(Strategy):
     """
     The simplest Big Money strategy: when you can, buy a province, if not buy a

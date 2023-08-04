@@ -1,8 +1,9 @@
 import random
 from board import *
+from strategy import DoNothing
 
 class Player():
-    def __init__(self, board, strategy, debug=False, name=None):
+    def __init__(self, board, strategy=DoNothing, debug=False, name=None):
         self.board = board
         self.strategy = strategy(self)
         self.debug = debug
