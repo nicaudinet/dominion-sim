@@ -93,7 +93,7 @@ class DoubleSmithy(Strategy):
                 self.player.buy("gold")
             elif treasure_total >= 4:
                 self.player.buy("smithy")
-                self.has_smithy = True
+                self.n_smithy += 1
             elif treasure_total >= 3:
                 self.player.buy("silver")
         else:
