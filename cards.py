@@ -26,6 +26,14 @@ class Card:
         else:
             raise Exception("Can only compare Card to a string or a Card")
 
+    def __lt__(self, other):
+        if isinstance(other, str):
+            return self.name < other
+        elif isinstance(other, Card):
+            return self.name < other.name
+        else:
+            raise Exception("Can only compare Card to a string or a Card")
+
     def __str__(self):
         return self.name
 

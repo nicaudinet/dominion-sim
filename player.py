@@ -2,10 +2,11 @@ import random
 from board import *
 
 class Player():
-    def __init__(self, board, strategy, debug=False):
+    def __init__(self, board, strategy, debug=False, name=None):
         self.board = board
         self.strategy = strategy(self)
         self.debug = debug
+        self.name = name
 
         self.deck = []
         self.hand = []
@@ -22,6 +23,13 @@ class Player():
         random.shuffle(self.discard_pile)
         self.deck += self.discard_pile
         self.discard_pile = []
+    def card_summary(self):
+        cards = self.all_cards()
+        unique_cards = set([c.name for c in cards])
+        summary = {}
+        for card_name in unique_cards:
+            summary[card_name] = sum([1 for c in cards if c == card_name])
+        return summary
 
     def draw(self, n):
         if len(self.deck) < n:
@@ -32,7 +40,6 @@ class Player():
     def draw_hand(self):
         self.hand = []
         self.draw(5)
-        if self.debug: print(sorted([c.name for c in self.hand]))
 
     def discard_hand(self):
         self.discard_pile += self.hand
@@ -70,11 +77,23 @@ class Player():
 
     def buy(self, card_name):
         if Card(card_name).price <= self.hand_value():
+            if self.debug:
+                if self.name is not None: print(" - ", end="")
+                print("Final hand:  ", sorted(self.hand))
             success = self.gain(card_name)
-            if success and self.debug: print(f"Bought {card_name}")
+            if success and self.debug:
+                if self.name is not None: print(" - ", end="")
+                print(f"Bought {card_name}")
             return success
 
     def play(self):
+        if self.debug:
+            if self.name is not None:
+                print(self.name + ":")
+                print(" - ", end="")
+            print("Initial hand:", sorted(self.hand))
         self.strategy.play()
         self.discard_hand()
+        self.draw_hand()
+        if self.debug: print("")
         return self.board.game_over()
