@@ -95,7 +95,7 @@ class Player():
                 print(f"Bought {card_name}")
             return success
 
-    def play_card(self, card_name):
+    def use_card(self, card_name):
         if card_name in self.hand:
             card = self.hand.pop(self.hand.index(card_name))
             self.in_play.append(card)

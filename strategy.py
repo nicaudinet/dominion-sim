@@ -54,7 +54,7 @@ class SmithyBigMoney(Strategy):
         self.has_smithy = False
 
     def _action_phase(self):
-        smithy = self.player.play_card("smithy")
+        smithy = self.player.use_card("smithy")
         if smithy is not None:
             smithy.play(self.player)
 
@@ -88,7 +88,7 @@ class DoubleSmithy(Strategy):
         self.n_smithy = 0
 
     def _action_phase(self):
-        smithy = self.player.play_card("smithy")
+        smithy = self.player.use_card("smithy")
         if smithy is not None:
             smithy.play(self.player)
 
@@ -122,7 +122,7 @@ class MineBigMoney:
         self.has_mine = False
 
     def _action_phase(self):
-        mine = self.player.play_card("mine")
+        mine = self.player.use_card("mine")
         if mine is None:
             pass
         else:
