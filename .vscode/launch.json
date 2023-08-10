@@ -1,0 +1,13 @@
+// From https://stackoverflow.com/questions/59395036/how-to-make-vscode-always-run-main-py
+{
+    "version": "0.1.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/game.py",
+            "console": "integratedTerminal"
+        }
+    ]
+}
