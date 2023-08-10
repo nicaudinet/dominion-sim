@@ -18,7 +18,7 @@ class Board:
             # "moat": 12,
             # "village": 12,
             "smithy": [Smithy() for _ in range(12)],
-            # "remodel": 12,
+            "remodel": [Remodel() for _ in range(12)],
             # "workshop": 12,
             "mine": [Mine() for _ in range(12)],
             # "market": 12,

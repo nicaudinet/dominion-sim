@@ -40,6 +40,9 @@ class Card:
     def __repr__(self):
         return self.name
 
+    def __hash__(self):
+        return hash(self.name)
+
 ##################
 # Treasure Cards #
 ##################
@@ -112,3 +115,12 @@ class Mine(Action):
             elif card_name == "copper":
                 player.trash("copper")
                 player.gain_hand("silver")
+
+class Remodel(Action):
+    def __init__(self):
+        super().__init__("remodel")
+
+    def play(self, player, old_card, new_card):
+        if old_card in player.hand and new_card.price <= 2 + old_card.price:
+            player.trash(old_card)
+            player.gain(new_card)

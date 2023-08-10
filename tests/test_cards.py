@@ -63,3 +63,19 @@ class TestMine(TestActionCard):
         self.player.hand = hand
         mine.play(self.player, "gold")
         self.assertEqual(self.player.hand, hand)
+
+class TestRemodel(TestActionCard):
+
+    def test_name(self):
+        self.assertEqual(Remodel().name, "remodel")
+    
+    def test_play(self):
+        remodel = Remodel()
+        old_card = random.choice(all_cards)
+        self.player.discard_pile = []
+        self.player.hand = [old_card]
+        valid_cards = [c for c in all_cards if c.price <= old_card.price + 2]
+        new_card = random.choice(valid_cards)
+        remodel.play(self.player, old_card, new_card)
+        self.assertListEqual(self.player.discard_pile, [new_card])
+        self.assertListEqual(self.player.hand, [])
