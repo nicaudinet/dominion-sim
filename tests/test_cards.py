@@ -1,8 +1,34 @@
 import unittest
+import random
 
 from board import Board
 from player import Player
 from cards import *
+
+treasure_cards = [Copper(), Silver(), Gold()]
+victory_cards = [Estate(), Duchy(), Province()]
+action_cards = [Smithy(), Mine()]
+all_cards = treasure_cards + victory_cards + action_cards
+
+class TestCard(unittest.TestCase):
+
+    def test_is_treasure(self):
+        card = random.choice(treasure_cards)
+        self.assertTrue(card.is_treasure())
+        card = random.choice(victory_cards + action_cards)
+        self.assertFalse(card.is_treasure())
+
+    def test_is_victory(self):
+        card = random.choice(victory_cards)
+        self.assertTrue(card.is_victory())
+        card = random.choice(treasure_cards + action_cards)
+        self.assertFalse(card.is_victory())
+
+    def test_is_action(self):
+        card = random.choice(action_cards)
+        self.assertTrue(card.is_action())
+        card = random.choice(victory_cards + treasure_cards)
+        self.assertFalse(card.is_action())
 
 class TestActionCard(unittest.TestCase):
 

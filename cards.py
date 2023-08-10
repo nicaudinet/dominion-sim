@@ -1,4 +1,4 @@
-import constants as const
+import constants
 
 ###################
 # Base Card Class #
@@ -7,7 +7,7 @@ import constants as const
 class Card:
     def __init__(self, card_name):
         self.name = card_name
-        self.price = const.price[card_name]
+        self.price = constants.price[card_name]
 
     def is_treasure(self):
         return hasattr(self, "value")
@@ -16,7 +16,7 @@ class Card:
         return hasattr(self, "points")
 
     def is_action(self):
-        return hasattr(self, "actions")
+        return hasattr(self, "play") and callable(self.play)
 
     def __eq__(self, other):
         if isinstance(other, str):
