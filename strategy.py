@@ -112,7 +112,7 @@ class DoubleSmithy(Strategy):
             elif treasure_total >= 3:
                 self.player.buy("silver")
 
-class MineBigMoney:
+class MineBigMoney(Strategy):
     """
     A classic variation on Big Money, where the player buys a single Smithy as
     soon as possible and then plays standard Big Money for the rest of the game

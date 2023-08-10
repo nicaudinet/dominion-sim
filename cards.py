@@ -104,11 +104,11 @@ class Mine(Action):
     def __init__(self):
         super().__init__("mine")
 
-    def play(self, player):
-        if "silver" in player.hand:
-            player.trash("silver")
-            player.gain_hand("gold")
-        elif "copper" in player.hand:
-            player.trash("copper")
-            player.gain_hand("silver")
-
+    def play(self, player, card_name):
+        if card_name in player.hand:
+            if card_name == "silver":
+                player.trash("silver")
+                player.gain_hand("gold")
+            elif card_name == "copper":
+                player.trash("copper")
+                player.gain_hand("silver")
