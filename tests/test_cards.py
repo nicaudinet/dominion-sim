@@ -53,15 +53,15 @@ class TestMine(TestActionCard):
 
     def test_play(self):
         mine = Mine()
-        self.player.hand = ["copper"]
-        mine.play(self.player, "copper")
-        self.assertTrue("silver" in self.player.hand)
-        self.player.hand = ["silver"]
-        mine.play(self.player, "silver")
-        self.assertTrue("gold" in self.player.hand)
-        hand = ["estate", "gold"]
+        self.player.hand = [Copper()]
+        mine.play(self.player, Copper())
+        self.assertTrue(Silver() in self.player.hand)
+        self.player.hand = [Silver()]
+        mine.play(self.player, Silver())
+        self.assertTrue(Gold() in self.player.hand)
+        hand = [Estate(), Gold()]
         self.player.hand = hand
-        mine.play(self.player, "gold")
+        mine.play(self.player, Gold())
         self.assertEqual(self.player.hand, hand)
 
 class TestRemodel(TestActionCard):

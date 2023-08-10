@@ -107,14 +107,14 @@ class Mine(Action):
     def __init__(self):
         super().__init__("mine")
 
-    def play(self, player, card_name):
-        if card_name in player.hand:
-            if card_name == "silver":
-                player.trash("silver")
-                player.gain_hand("gold")
-            elif card_name == "copper":
-                player.trash("copper")
-                player.gain_hand("silver")
+    def play(self, player, card):
+        if card in player.hand:
+            if card == Silver():
+                player.trash(Silver())
+                player.gain_hand(Gold())
+            elif card == Copper():
+                player.trash(Copper())
+                player.gain_hand(Silver())
 
 class Remodel(Action):
     def __init__(self):

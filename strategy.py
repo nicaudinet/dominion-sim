@@ -38,11 +38,11 @@ class BigMoney(Strategy):
     def _buy_phase(self):
         treasure_total = self.player.hand_value()
         if treasure_total >= 8:
-            self.player.buy("province")
+            self.player.buy(Province())
         elif treasure_total >= 6:
-            self.player.buy("gold")
+            self.player.buy(Gold())
         elif treasure_total >= 3:
-            self.player.buy("silver")
+            self.player.buy(Silver())
 
 class SmithyBigMoney(Strategy):
     """
@@ -54,7 +54,7 @@ class SmithyBigMoney(Strategy):
         self.has_smithy = False
 
     def _action_phase(self):
-        smithy = self.player.use_card("smithy")
+        smithy = self.player.use_card(Smithy())
         if smithy is not None:
             smithy.play(self.player)
 
@@ -62,21 +62,21 @@ class SmithyBigMoney(Strategy):
         treasure_total = self.player.hand_value()
         if not self.has_smithy:
             if treasure_total >= 8:
-                self.player.buy("province")
+                self.player.buy(Province())
             elif treasure_total >= 6:
-                self.player.buy("gold")
+                self.player.buy(Gold())
             elif treasure_total >= 4:
-                self.player.buy("smithy")
+                self.player.buy(Smithy())
                 self.has_smithy = True
             elif treasure_total >= 3:
-                self.player.buy("silver")
+                self.player.buy(Silver())
         else:
             if treasure_total >= 8:
-                self.player.buy("province")
+                self.player.buy(Province())
             elif treasure_total >= 6:
-                self.player.buy("gold")
+                self.player.buy(Gold())
             elif treasure_total >= 3:
-                self.player.buy("silver")
+                self.player.buy(Silver())
 
 class DoubleSmithy(Strategy):
     """
@@ -88,7 +88,7 @@ class DoubleSmithy(Strategy):
         self.n_smithy = 0
 
     def _action_phase(self):
-        smithy = self.player.use_card("smithy")
+        smithy = self.player.use_card(Smithy())
         if smithy is not None:
             smithy.play(self.player)
 
@@ -96,21 +96,21 @@ class DoubleSmithy(Strategy):
         treasure_total = self.player.hand_value()
         if self.n_smithy < 2:
             if treasure_total >= 8:
-                self.player.buy("province")
+                self.player.buy(Province())
             elif treasure_total >= 6:
-                self.player.buy("gold")
+                self.player.buy(Gold())
             elif treasure_total >= 4:
-                self.player.buy("smithy")
+                self.player.buy(Smithy())
                 self.n_smithy += 1
             elif treasure_total >= 3:
-                self.player.buy("silver")
+                self.player.buy(Silver())
         else:
             if treasure_total >= 8:
-                self.player.buy("province")
+                self.player.buy(Province())
             elif treasure_total >= 6:
-                self.player.buy("gold")
+                self.player.buy(Gold())
             elif treasure_total >= 3:
-                self.player.buy("silver")
+                self.player.buy(Silver())
 
 class MineBigMoney(Strategy):
     """
@@ -122,14 +122,14 @@ class MineBigMoney(Strategy):
         self.has_mine = False
 
     def _action_phase(self):
-        mine = self.player.use_card("mine")
+        mine = self.player.use_card(Mine())
         if mine is None:
             pass
         else:
-            if "silver" in self.player.hand:
-                mine.play(self.player, "silver")
-            elif "copper" in self.player.hand:
-                mine.play(self.player, "copper")
+            if Silver() in self.player.hand:
+                mine.play(self.player, Silver())
+            elif Copper() in self.player.hand:
+                mine.play(self.player, Copper())
             else:
                 pass
 
@@ -137,14 +137,14 @@ class MineBigMoney(Strategy):
         treasure_total = self.player.hand_value()
         if not self.has_mine:
             if treasure_total >= 5:
-                self.player.buy("mine")
+                self.player.buy(Mine())
                 self.has_mine = True
             elif treasure_total >= 3:
-                self.player.buy("silver")
+                self.player.buy(Silver())
         else:
             if treasure_total >= 8:
-                self.player.buy("province")
+                self.player.buy(Province())
             elif treasure_total >= 6:
-                self.player.buy("gold")
+                self.player.buy(Gold())
             elif treasure_total >= 3:
-                self.player.buy("silver")
+                self.player.buy(Silver())

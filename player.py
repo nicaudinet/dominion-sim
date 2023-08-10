@@ -14,8 +14,10 @@ class Player():
         self.discard_pile = []
         self.in_play = []
 
-        coppers = [self.gain("copper") for _ in range(7)]
-        estates = [self.gain("estate") for _ in range(3)]
+        for _ in range(7):
+            self.gain(Copper())
+        for _ in range(3):
+            self.gain(Estate())
         self.draw_hand()
 
     def all_cards(self):
